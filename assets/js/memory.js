@@ -1,19 +1,63 @@
-const images = document.querySelectorAll(".card-img");
+const cardImages = document.querySelectorAll(".card-img");
 
-const imagesList = [
+const imgSrc = [
   "alien.png",
-  "back.png",
   "bug.png",
   "duck.png",
   "rocket.png",
   "spaceship.png",
   "tiktac.png",
-  "white.png",
 ];
 
-images.forEach((img) => {
-  img.src = `./assets/img/${imagesList[1]}`;
-  img.addEventListener("click", () => {
-    img.src = `./assets/img/${imagesList[2]}`;
+const shuffled = [...imgSrc, ...imgSrc].sort(() => Math.random() - 0.5);
+
+let errors = 0;
+const errorDisplay = document.getElementById("errors");
+
+let flippedCards = [];
+let lockBoard = false;
+
+cardImages.forEach((card, index) => {
+  card.dataset.img = shuffled[index];
+  card.src = "./assets/img/back.png";
+
+  card.addEventListener("click", () => {
+    if (lockBoard) return;
+    if (card.src.includes(card.dataset.img)) return;
+
+    card.src = `./assets/img/${card.dataset.img}`;
+    flippedCards.push(card);
+
+    if (flippedCards.length === 2) {
+      lockBoard = true;
+
+      const [first, second] = flippedCards;
+
+      if (first.dataset.img === second.dataset.img) {
+        flippedCards = [];
+        lockBoard = false;
+        checkWin();
+      } else {
+        errors++;
+        errorDisplay.textContent = errors;
+
+        setTimeout(() => {
+          first.src = "./assets/img/back.png";
+          second.src = "./assets/img/back.png";
+          flippedCards = [];
+          lockBoard = false;
+        }, 1000);
+      }
+    }
   });
 });
+
+function checkWin() {
+  const allMatched = Array.from(cards).every((card) =>
+    card.src.includes(card.dataset.img)
+  );
+
+  if (allMatched) {
+    document.getElementById("result").textContent = "Hai vinto!";
+  }
+}

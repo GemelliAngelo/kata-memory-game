@@ -1,5 +1,17 @@
 body {
+  font-family: "Press Start 2P", system-ui;
   background-image: url("../../public/img/background.png");
   background-size: cover;
-  overflow-y: hidden;
+}
+
+.container {
+  min-height: 100vh;
+}
+
+.custom-card {
+  cursor: pointer;
+}
+
+.opaque {
+  background-color: rgba(221, 220, 220, 0.7);
 }
