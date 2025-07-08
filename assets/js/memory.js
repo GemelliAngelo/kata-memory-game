@@ -1,5 +1,9 @@
 const cardImages = document.querySelectorAll(".card-img");
 
+const errorEl = document.getElementById("errors");
+
+const resultEl = document.getElementById("result");
+
 const imgSrc = [
   "alien.png",
   "bug.png",
@@ -12,7 +16,6 @@ const imgSrc = [
 const shuffled = [...imgSrc, ...imgSrc].sort(() => Math.random() - 0.5);
 
 let errors = 0;
-const errorDisplay = document.getElementById("errors");
 
 let flippedCards = [];
 let lockBoard = false;
@@ -39,7 +42,7 @@ cardImages.forEach((card, index) => {
         checkWin();
       } else {
         errors++;
-        errorDisplay.textContent = errors;
+        errorEl.textContent = errors;
 
         setTimeout(() => {
           first.src = "./assets/img/back.png";
@@ -58,6 +61,6 @@ function checkWin() {
   );
 
   if (allMatched) {
-    document.getElementById("result").textContent = "Hai vinto!";
+    resultEl.textContent = "Hai vinto!";
   }
 }
